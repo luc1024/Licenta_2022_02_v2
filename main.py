@@ -1,6 +1,7 @@
 import os
 import shutil
 from numpy import random as np_random
+from dotenv import load_dotenv
 
 from prepare_items import get_items
 from prepare_subiecte import make_subiecte
@@ -10,8 +11,9 @@ from write_zips import write_zips
 
 
 # CONSTANTE
+load_dotenv()
 SHEET_ID = '1XSOBxM3CwXDD8xa_KY3e2qk6WYpAAI0EdbbONzLMf4k'  # 2021.06 - original
-JSON_KEYFILE_NAME = 'licenta-317513-7b618b818287.json'
+JSON_KEYFILE_NAME = os.getenv('GOOGLE_API_CREDENTIALS')
 
 NR_COMISII = 6  # 6
 NR_SUBIECTE_COMISIE = 32  # 32
@@ -30,7 +32,7 @@ ZIP_FOLDER = OUTPUT_FOLDER + 'zips' + os.sep
 
 np_random.seed(SEED)
 
-items = get_items(SHEET_ID, JSON_KEYFILE_NAME, from_local_file=True)
+items = get_items(SHEET_ID, JSON_KEYFILE_NAME, from_local_file=False)
 subiecte = make_subiecte(DICT_ZILE, NR_COMISII, NR_SUBIECTE_COMISIE, NR_MATERII, items, OUTPUT_FOLDER)
 
 write_docs(subiecte, DOC_FOLDER, verificare=False)
