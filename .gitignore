@@ -6,5 +6,9 @@ venv/
 
 Subiecte*/
 Liste_Itemi/
+output/
+
+secret/
+
 licenta*
 items.json

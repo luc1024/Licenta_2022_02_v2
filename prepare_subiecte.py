@@ -25,7 +25,7 @@ def make_subiecte(dict_zile: dict, nr_comisii: int, nr_subiecte: int, nr_materii
 
 
 def write_frecvente(items: list, output_folder: str, nr_zile: int, nr_comisii: int, nr_subiecte: int):
-    wb = openpyxl.load_workbook('./frecvente_itemi_template.xlsx')
+    wb = openpyxl.load_workbook('templates/frecvente_itemi_template.xlsx')
     sheet = wb.worksheets[0]
     for item in items:
         sheet.cell(item['materie'] + 1, item['index_original'] + 1 + 1).value = len(item['zile_comisii'])

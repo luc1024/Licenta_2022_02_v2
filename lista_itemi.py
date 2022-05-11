@@ -21,7 +21,7 @@ for row in ord_materii_values:
 num = ['a) ', 'b) ', 'c) ', 'd) ']
 
 for i in range(NR_MATERII):
-    doc: docx.document.Document = docx.Document('Template.docx')  # https://stackoverflow.com/a/61822452/2358837
+    doc: docx.document.Document = docx.Document('templates/Template.docx')  # https://stackoverflow.com/a/61822452/2358837
     for j in range(NR_ITEMI[i]):
         for k in range(NR_PARAGRAPHS_PER_ITEM):
             pre = str(j + 1) + '. ' if k == 0 else num[k - 1]
@@ -41,4 +41,4 @@ for i in range(NR_MATERII):
                             + ' (' + str(NR_ITEMI[i]) + ' itemi)'
         doc.save('./Liste_Itemi/' + file_name + '.docx')
 
-print('NR_MATERII: ', NR_MATERII)
+print('nr_materii: ', NR_MATERII)

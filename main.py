@@ -1,7 +1,7 @@
 import os
 import shutil
 from numpy import random as np_random
-from dotenv import load_dotenv
+from dotenv import load_dotenv, dotenv_values
 
 from prepare_items import get_items
 from prepare_subiecte import make_subiecte
@@ -12,33 +12,34 @@ from write_zips import write_zips
 
 # CONSTANTE
 load_dotenv()
-SHEET_ID = '1XSOBxM3CwXDD8xa_KY3e2qk6WYpAAI0EdbbONzLMf4k'  # 2021.06 - original
-JSON_KEYFILE_NAME = os.getenv('GOOGLE_API_CREDENTIALS')
 
-NR_COMISII = 6  # 6
-NR_SUBIECTE_COMISIE = 32  # 32
-NR_MATERII = 23
+sheet_id = os.getenv('SHEET_ID')
+credentials_file = os.getenv('GOOGLE_API_CREDENTIALS')
 
-DICT_ZILE = {'M': 'Marti, 15.02.2022'}
+nr_comisii = int(os.getenv('NR_COMISII'))
+nr_subiecte_comisie = int(os.getenv('NR_SUBIECTE_COMISIE'))
+nr_materii = int(os.getenv('NR_MATERII'))
 
-SEED = 202202210
+dict_zile = dotenv_values(".env-zile")
 
-OUTPUT_FOLDER = os.getcwd() + os.sep + 'Subiecte_Comisii_' + str(SEED) + os.sep
-DOC_FOLDER = OUTPUT_FOLDER + 'docs' + os.sep
-PDF_FOLDER = OUTPUT_FOLDER + 'pdfs' + os.sep
-PDF_FOLDER_2PAG = OUTPUT_FOLDER + '_pdfs_2_pages' + os.sep
-ZIP_FOLDER = OUTPUT_FOLDER + 'zips' + os.sep
+seed = int(os.getenv('SEED'))
+
+output_dir_path = os.getcwd() + os.sep + os.getenv('OUTPUT_DIR_NAME') + os.sep + str(seed) + os.sep
+doc_folder = output_dir_path + 'docs' + os.sep
+pdf_folder = output_dir_path + 'pdfs' + os.sep
+pdf_folder_2pag = output_dir_path + '_pdfs_2_pages' + os.sep
+zip_folder = output_dir_path + 'zips' + os.sep
 
 
-np_random.seed(SEED)
+np_random.seed(seed)
 
-items = get_items(SHEET_ID, JSON_KEYFILE_NAME, from_local_file=False)
-subiecte = make_subiecte(DICT_ZILE, NR_COMISII, NR_SUBIECTE_COMISIE, NR_MATERII, items, OUTPUT_FOLDER)
+items = get_items(sheet_id, credentials_file, from_local_file=False)
+subiecte = make_subiecte(dict_zile, nr_comisii, nr_subiecte_comisie, nr_materii, items, output_dir_path)
 
-write_docs(subiecte, DOC_FOLDER, verificare=False)
-write_pdfs(DOC_FOLDER, PDF_FOLDER, PDF_FOLDER_2PAG)
-write_zips(PDF_FOLDER, ZIP_FOLDER, DICT_ZILE, NR_COMISII)
+write_docs(subiecte, doc_folder, verificare=False)
+write_pdfs(doc_folder, pdf_folder, pdf_folder_2pag)
+write_zips(pdf_folder, zip_folder, dict_zile, nr_comisii)
 
-shutil.rmtree(DOC_FOLDER)
-shutil.rmtree(PDF_FOLDER)
+shutil.rmtree(doc_folder)
+shutil.rmtree(pdf_folder)
 

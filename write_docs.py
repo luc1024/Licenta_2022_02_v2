@@ -42,7 +42,7 @@ def write_raspuns_item(index_item, item, doc):
 
 
 def write_subiect(path: str, filename: str, subiect: dict, verificare=False):
-    doc: docx.document.Document = docx.Document('Template.docx')  # https://stackoverflow.com/a/61822452/2358837
+    doc: docx.document.Document = docx.Document('templates/Template.docx')  # https://stackoverflow.com/a/61822452/2358837
     for index_item, item in enumerate(subiect['itemi']):
         write_subiect_item(index_item, item, doc, verificare)
     doc.save(path + filename)
@@ -50,7 +50,7 @@ def write_subiect(path: str, filename: str, subiect: dict, verificare=False):
 
 
 def write_raspuns(path: str, filename: str, subiect: dict):
-    doc: docx.document.Document = docx.Document('Template.docx')  # https://stackoverflow.com/a/61822452/2358837
+    doc: docx.document.Document = docx.Document('templates/Template.docx')  # https://stackoverflow.com/a/61822452/2358837
     for index_item, item in enumerate(subiect['itemi']):
         write_raspuns_item(index_item, item, doc)
     doc.save(path + filename)
