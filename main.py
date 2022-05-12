@@ -1,7 +1,8 @@
 import os
 import shutil
 from numpy import random as np_random
-from dotenv import load_dotenv, dotenv_values
+from dotenv import dotenv_values
+
 
 from prepare_items import get_items
 from prepare_subiecte import make_subiecte
@@ -11,7 +12,7 @@ from write_zips import write_zips
 
 
 # CONSTANTE
-load_dotenv()
+# load_dotenv()
 
 sheet_id = os.getenv('SHEET_ID')
 credentials_file = os.getenv('GOOGLE_API_CREDENTIALS')

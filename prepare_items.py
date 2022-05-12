@@ -5,6 +5,9 @@ from googleapiclient.errors import HttpError
 from google.oauth2 import service_account
 
 import json
+from dotenv import load_dotenv
+
+load_dotenv()
 
 offset_row = int(os.getenv('OFFSET_ROW'))  # headerul
 offset_col = int(os.getenv('OFFSET_COL'))  # timestamp, email, categoria, materia
