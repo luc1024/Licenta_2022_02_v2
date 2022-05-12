@@ -1,13 +1,15 @@
+import os
+
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from google.oauth2 import service_account
 
 import json
 
-OFFSET_ROW = 1  # headerul
-OFFSET_COL = 4  # timestamp, email, categoria, materia
-NR_VARIANTE_RASPUNS = 4
-NR_PARAGRAPHS_PER_ITEM = NR_VARIANTE_RASPUNS + 1  # intrebarea + variantele de raspuns
+offset_row = int(os.getenv('OFFSET_ROW'))  # headerul
+offset_col = int(os.getenv('OFFSET_COL'))  # timestamp, email, categoria, materia
+nr_variante_raspuns = int(os.getenv('NR_VARIANTE_RASPUNS'))
+nr_paragraphs_per_item = nr_variante_raspuns + 1  # intrebarea + variantele de raspuns
 
 
 def get_ord_spreadsheet_values(sheet_id: str, json_keyfile_name: str) -> list:
@@ -27,7 +29,7 @@ def get_ord_spreadsheet_values(sheet_id: str, json_keyfile_name: str) -> list:
                                     range=sample_range_name).execute()
         sheet_values = result.get('values', [])
         # Ordonam dupa coloana Materie
-        ord_materii_values = sorted(sheet_values[OFFSET_ROW:], key=lambda r: int((r[3].split('.'))[0]))
+        ord_materii_values = sorted(sheet_values[offset_row:], key=lambda r: int((r[3].split('.'))[0]))
 
         return ord_materii_values
 
@@ -39,19 +41,19 @@ def make_items(ord_materii_values: list) -> list:
     items = []
     for row in ord_materii_values:
         row = list(filter(None, row))  # elimina ''
-        nr_items = (len(row) - OFFSET_COL) // NR_PARAGRAPHS_PER_ITEM
+        nr_items = (len(row) - offset_col) // nr_paragraphs_per_item
         for i in range(nr_items):
             raspunsuri = []
-            for j in range(NR_VARIANTE_RASPUNS):
+            for j in range(nr_variante_raspuns):
                 raspunsuri.append({
-                    'text': row[OFFSET_COL + i * NR_PARAGRAPHS_PER_ITEM + j + 1].strip(),
+                    'text': row[offset_col + i * nr_paragraphs_per_item + j + 1].strip(),
                     'corect': (j == 0),
                     'index_original': j,
                 })
             item = {
                 'categorie': int(row[2].split('.')[0]),
                 'materie': int(row[3].split('.')[0]),
-                'intrebare': row[OFFSET_COL + i*NR_PARAGRAPHS_PER_ITEM].strip(),
+                'intrebare': row[offset_col + i * nr_paragraphs_per_item].strip(),
                 'raspunsuri': raspunsuri,
                 'index_original': i,
                 'zile_comisii': [],
