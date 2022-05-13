@@ -15,7 +15,7 @@ from write_zips import write_zips
 # load_dotenv()
 
 sheet_id = os.getenv('SHEET_ID')
-credentials_file = os.getenv('GOOGLE_API_CREDENTIALS')
+credentials_file = 'secret' + os.sep + os.getenv('GOOGLE_API_CREDENTIALS')
 
 nr_comisii = int(os.getenv('NR_COMISII'))
 nr_subiecte_comisie = int(os.getenv('NR_SUBIECTE_COMISIE'))

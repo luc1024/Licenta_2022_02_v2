@@ -8,7 +8,7 @@ Subiecte*/
 Liste_Itemi/
 # output/
 
-secret/
+# secret/
 
 licenta*
-items.json
+secret/items.json

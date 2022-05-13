@@ -68,12 +68,12 @@ def make_items(ord_materii_values: list) -> list:
 
 def get_items(sheet_id: str, json_keyfile_name: str, from_local_file=True) -> list:
     if from_local_file:
-        f = open('./items.json', 'r')
+        f = open('secret/items.json', 'r')
         items = json.load(f)
     else:
         spreadsheet_values = get_ord_spreadsheet_values(sheet_id, json_keyfile_name)
         items = make_items(spreadsheet_values)
-        with open('./items.json', 'w+') as f:
+        with open('secret/items.json', 'w+') as f:
             json.dump(items, f)
             f.close()
     return items
