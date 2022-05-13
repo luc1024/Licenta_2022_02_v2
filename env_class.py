@@ -25,4 +25,9 @@ class Env:
 
         self.generate_liste_itemi = (os.getenv('GENERATE_LISTE_ITEMI') == 'TRUE')
 
+        self.offset_row = int(os.getenv('OFFSET_ROW'))  # headerul
+        self.offset_col = int(os.getenv('OFFSET_COL'))  # timestamp, email, categoria, materia
+        self.nr_variante_raspuns = int(os.getenv('NR_VARIANTE_RASPUNS'))
+        self.nr_paragraphs_per_item = self.nr_variante_raspuns + 1  # intrebarea + variantele de raspuns
+
         self.dict_zile = dotenv_values(".env-zile")
