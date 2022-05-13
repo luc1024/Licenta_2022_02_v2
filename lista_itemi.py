@@ -5,6 +5,7 @@ from prepare_items import get_ord_spreadsheet_values
 
 ord_materii_values = get_ord_spreadsheet_values('1XSOBxM3CwXDD8xa_KY3e2qk6WYpAAI0EdbbONzLMf4k', 'licenta-317513-7b618b818287.json')
 
+# TODO
 OFFSET_ROW = 1  # headerul
 OFFSET_COL = 4  # timestamp, email, categoria, materia
 
