@@ -9,6 +9,7 @@ from prepare_subiecte import make_subiecte
 from write_docs import write_docs
 from write_pdfs import write_pdfs
 from write_zips import write_zips
+from lista_itemi import write_liste_itemi
 
 
 # CONSTANTE
@@ -31,10 +32,13 @@ pdf_folder = output_dir_path + 'pdfs' + os.sep
 pdf_folder_2pag = output_dir_path + '_pdfs_2_pages' + os.sep
 zip_folder = output_dir_path + 'zips' + os.sep
 
+get_from_local_file = (os.getenv('GET_FROM_LOCAL_FILE') == 'TRUE')
+
+if os.getenv('GENERATE_LISTE_ITEMI') == 'TRUE':
+    write_liste_itemi(sheet_id, credentials_file, os.getenv('OUTPUT_DIR_NAME') + os.sep)
 
 np_random.seed(seed)
 
-get_from_local_file = (os.getenv('GET_FROM_LOCAL_FILE') == 'TRUE')
 items = get_items(sheet_id, credentials_file, from_local_file=get_from_local_file)
 subiecte = make_subiecte(dict_zile, nr_comisii, nr_subiecte_comisie, nr_materii, items, output_dir_path)
 
