@@ -1,47 +1,31 @@
 import os
 import shutil
 from numpy import random as np_random
-from dotenv import dotenv_values
-
 
 from prepare_items import get_items
 from prepare_subiecte import make_subiecte
 from write_docs import write_docs
 from write_pdfs import write_pdfs
 from write_zips import write_zips
+from lista_itemi import write_liste_itemi
+
+from env_class import Env
 
 
-# CONSTANTE
-# load_dotenv()
+env = Env()
 
-sheet_id = os.getenv('SHEET_ID')
-credentials_file = 'secret' + os.sep + os.getenv('GOOGLE_API_CREDENTIALS')
+if env.generate_liste_itemi:
+    write_liste_itemi(env.sheet_id, env.credentials_file, os.getenv('OUTPUT_DIR_NAME') + os.sep)
 
-nr_comisii = int(os.getenv('NR_COMISII'))
-nr_subiecte_comisie = int(os.getenv('NR_SUBIECTE_COMISIE'))
-nr_materii = int(os.getenv('NR_MATERII'))
+np_random.seed(env.seed)
 
-dict_zile = dotenv_values(".env-zile")
+items = get_items(env.sheet_id, env.credentials_file, from_local_file=env.get_from_local_file)
+subiecte = make_subiecte(env.dict_zile, env.nr_comisii, env.nr_subiecte_comisie, env.nr_materii, items, env.output_dir_path)
 
-seed = int(os.getenv('SEED'))
+write_docs(subiecte, env.doc_folder, verificare=False)
+write_pdfs(env.doc_folder, env.pdf_folder, env.pdf_folder_2pag)
+write_zips(env.pdf_folder, env.zip_folder, env.dict_zile, env.nr_comisii)
 
-output_dir_path = os.getcwd() + os.sep + os.getenv('OUTPUT_DIR_NAME') + os.sep + str(seed) + os.sep
-doc_folder = output_dir_path + 'docs' + os.sep
-pdf_folder = output_dir_path + 'pdfs' + os.sep
-pdf_folder_2pag = output_dir_path + '_pdfs_2_pages' + os.sep
-zip_folder = output_dir_path + 'zips' + os.sep
-
-
-np_random.seed(seed)
-
-get_from_local_file = (os.getenv('GET_FROM_LOCAL_FILE') == 'TRUE')
-items = get_items(sheet_id, credentials_file, from_local_file=get_from_local_file)
-subiecte = make_subiecte(dict_zile, nr_comisii, nr_subiecte_comisie, nr_materii, items, output_dir_path)
-
-write_docs(subiecte, doc_folder, verificare=False)
-write_pdfs(doc_folder, pdf_folder, pdf_folder_2pag)
-write_zips(pdf_folder, zip_folder, dict_zile, nr_comisii)
-
-shutil.rmtree(doc_folder)
-shutil.rmtree(pdf_folder)
+shutil.rmtree(env.doc_folder)
+shutil.rmtree(env.pdf_folder)
 
