@@ -34,7 +34,8 @@ zip_folder = output_dir_path + 'zips' + os.sep
 
 np_random.seed(seed)
 
-items = get_items(sheet_id, credentials_file, from_local_file=False)
+get_from_local_file = (os.getenv('GET_FROM_LOCAL_FILE') == 'TRUE')
+items = get_items(sheet_id, credentials_file, from_local_file=get_from_local_file)
 subiecte = make_subiecte(dict_zile, nr_comisii, nr_subiecte_comisie, nr_materii, items, output_dir_path)
 
 write_docs(subiecte, doc_folder, verificare=False)
