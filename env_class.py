@@ -15,7 +15,8 @@ class Env:
 
         self.seed = int(os.getenv('SEED'))
 
-        self.output_dir_path = os.getcwd() + os.sep + os.getenv('OUTPUT_DIR_NAME') + os.sep + str(self.seed) + os.sep
+        self.output_dir_name = os.getenv('OUTPUT_DIR_NAME')
+        self.output_dir_path = os.getcwd() + os.sep + self.output_dir_name + os.sep + str(self.seed) + os.sep
         self.doc_folder = self.output_dir_path + 'docs' + os.sep
         self.pdf_folder = self.output_dir_path + 'pdfs' + os.sep
         self.pdf_folder_2pag = self.output_dir_path + '_pdfs_2_pages' + os.sep

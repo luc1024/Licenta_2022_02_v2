@@ -9,6 +9,7 @@ from env_class import Env
 
 env = Env()
 
+
 def get_ord_spreadsheet_values(sheet_id: str, json_keyfile_name: str) -> list:
     scopes = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
 
