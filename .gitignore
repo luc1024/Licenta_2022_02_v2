@@ -5,7 +5,7 @@ venv/
 .env
 
 Subiecte*/
-Liste_Itemi/
+# Liste_Itemi/
 # output/
 
 # secret/
