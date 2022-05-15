@@ -1,3 +1,5 @@
+import os
+
 import docx  # "pip install python-docx==0.8.10": https://automatetheboringstuff.com/2e/chapter15/
 from docx.document import Document  # https://stackoverflow.com/a/52466366/2358837
 
@@ -7,7 +9,7 @@ from env_class import Env
 env = Env()
 
 
-def write_liste_itemi(sheet_id, json_keyfile_name, output_folder):
+def write_liste_itemi(sheet_id, json_keyfile_name, output_dir_name):
     ord_materii_values = get_ord_spreadsheet_values(sheet_id, json_keyfile_name)
 
     nr_itemi = []
@@ -33,5 +35,5 @@ def write_liste_itemi(sheet_id, json_keyfile_name, output_folder):
             nr_materie, materia = ord_materii_values[i][3].split('.')
             email = ord_materii_values[i][1]
             file_name = ('%02d.' % int(nr_materie)) + materia + ' [' + email + ']' + ' (' + str(nr_itemi[i]) + ' itemi)'
-            doc.save(output_folder + 'Liste_Itemi/' + file_name + '.docx')
+            doc.save(output_dir_name + os.sep + 'Liste_Itemi/' + file_name + '.docx')
     print('env.nr_materii: ', env.nr_materii)

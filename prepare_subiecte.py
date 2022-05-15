@@ -1,10 +1,14 @@
 import os
+import shutil
+
 import openpyxl
 import numpy as np
 
 
 def make_subiecte(dict_zile: dict, nr_comisii: int, nr_subiecte: int, nr_materii: int, items: list, output_folder: str)\
         -> list:
+    if os.path.exists(output_folder):
+        shutil.rmtree(output_folder)
     os.mkdir(output_folder)
     list_zile = list(dict_zile.keys())
     range_comisii = range(ord('A'), ord('A') + nr_comisii)
