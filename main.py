@@ -15,7 +15,7 @@ from env_class import Env
 env = Env()
 
 if env.generate_liste_itemi:
-    write_liste_itemi(env.sheet_id, env.credentials_file, env.output_dir_name + os.sep)
+    write_liste_itemi(env.sheet_id, env.credentials_file, env.output_dir_name)
 
 np_random.seed(env.seed)
 
@@ -24,8 +24,14 @@ subiecte = make_subiecte(env.dict_zile, env.nr_comisii, env.nr_subiecte_comisie,
                          env.output_dir_path)
 
 write_docs(subiecte, env.doc_folder, verificare=False)
-write_pdfs(env.doc_folder, env.pdf_folder, env.pdf_folder_2pag)
-write_zips(env.pdf_folder, env.zip_folder, env.dict_zile, env.nr_comisii)
+
+success = write_pdfs(env.doc_folder, env.pdf_folder, env.pdf_folder_2pag)
+if not success:
+    print('PDFs not created, we\'ll use DOCs instead')
+    source_folder = env.doc_folder
+else:
+    source_folder = env.pdf_folder
+write_zips(source_folder, env.zip_folder, env.dict_zile, env.nr_comisii)
 
 shutil.rmtree(env.doc_folder)
 shutil.rmtree(env.pdf_folder)

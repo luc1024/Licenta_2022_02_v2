@@ -37,16 +37,20 @@ def docs2pdfs(doc_folder: str, pdf_folder: str, pdf_folder_2pag: str, wordapp):
         print('PDF created for ' + file_name)
 
 
-def write_pdfs(doc_folder: str, pdf_folder: str, pdf_folder_2pag: str):
+def write_pdfs(doc_folder: str, pdf_folder: str, pdf_folder_2pag: str) -> bool:
     os.mkdir(pdf_folder)
     os.mkdir(pdf_folder + 'subiecte')
     os.mkdir(pdf_folder + 'raspunsuri')
     os.mkdir(pdf_folder_2pag)
     try:
-        wordapp = comtypes.client.CreateObject('Word.Application')
-        docs2pdfs(doc_folder, pdf_folder, pdf_folder_2pag, wordapp)
+        word_app = comtypes.client.CreateObject('Word.Application')
     except:
-        print("Unexpected error:", sys.exc_info()[0])
-        raise
-    finally:
-        wordapp.Quit()
+        print("Sorry, couldn't create PDFs. Error: ", sys.exc_info()[0])
+        # raise
+        return False
+    else:
+        docs2pdfs(doc_folder, pdf_folder, pdf_folder_2pag, word_app)
+        word_app.Quit()
+        return True
+    # finally:
+    #     word_app.Quit()
