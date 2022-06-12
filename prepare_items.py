@@ -27,35 +27,35 @@ def get_ord_spreadsheet_values(sheet_id: str, json_keyfile_name: str) -> list:
                                     range=sample_range_name).execute()
         sheet_values = result.get('values', [])
         # Ordonam dupa coloana Materie
-        ord_materii_values = sorted(sheet_values[env.offset_row:], key=lambda r: int((r[3].split('.'))[0]))
+        ord_courses_values = sorted(sheet_values[env.offset_row:], key=lambda r: int((r[3].split('.'))[0]))
 
-        return ord_materii_values
+        return ord_courses_values
 
     except HttpError as err:
         print(err)
 
 
-def make_items(ord_materii_values: list) -> list:
+def make_items(ord_courses_values: list) -> list:
     items = []
-    for row in ord_materii_values:
+    for row in ord_courses_values:
         row = list(filter(None, row))  # elimina ''
         nr_items = (len(row) - env.offset_col) // env.nr_paragraphs_per_item
         for i in range(nr_items):
-            raspunsuri = []
-            for j in range(env.nr_variante_raspuns):
-                raspunsuri.append({
+            answers = []
+            for j in range(env.answers_per_item):
+                answers.append({
                     'text': row[env.offset_col + i * env.nr_paragraphs_per_item + j + 1].strip(),
-                    'corect': (j == 0),
-                    'index_original': j,
+                    'correct': (j == 0),
+                    'original_index': j,
                 })
             item = {
-                'categorie': int(row[2].split('.')[0]),
-                'materie': int(row[3].split('.')[0]),
-                'intrebare': row[env.offset_col + i * env.nr_paragraphs_per_item].strip(),
-                'raspunsuri': raspunsuri,
-                'index_original': i,
-                'zile_comisii': [],
-                'comisii': []
+                'category': int(row[2].split('.')[0]),
+                'course': int(row[3].split('.')[0]),
+                'question': row[env.offset_col + i * env.nr_paragraphs_per_item].strip(),
+                'answers': answers,
+                'original_index': i,
+                'days_exam_boards': [],
+                'exam_boards': []
             }
             items.append(item)
     return items
