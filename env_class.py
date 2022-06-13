@@ -23,6 +23,7 @@ class Env:
         self.zip_folder = self.output_dir_path + 'zips' + os.sep
 
         self.get_from_local_file = (os.getenv('GET_FROM_LOCAL_FILE') == 'TRUE')
+        self.fake_data = (os.getenv('FAKE_DATA') == 'TRUE')
 
         self.generate_liste_itemi = (os.getenv('GENERATE_LISTE_ITEMI') == 'TRUE')
 

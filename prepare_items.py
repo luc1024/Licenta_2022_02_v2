@@ -5,6 +5,7 @@ from googleapiclient.errors import HttpError
 from google.oauth2 import service_account
 
 from env_class import Env
+from faker import Faker
 
 
 env = Env()
@@ -35,7 +36,8 @@ def get_ord_spreadsheet_values(sheet_id: str, json_keyfile_name: str) -> list:
         print(err)
 
 
-def make_items(ord_courses_values: list) -> list:
+def make_items(ord_courses_values: list, fake_data: bool = False) -> list:
+    fake = Faker()
     items = []
     for row in ord_courses_values:
         row = list(filter(None, row))  # elimina ''
@@ -44,14 +46,14 @@ def make_items(ord_courses_values: list) -> list:
             answers = []
             for j in range(env.answers_per_item):
                 answers.append({
-                    'text': row[env.offset_col + i * env.nr_paragraphs_per_item + j + 1].strip(),
+                    'text': fake.text(50) if fake_data else row[env.offset_col + i * env.nr_paragraphs_per_item + j + 1].strip(),
                     'correct': (j == 0),
                     'original_index': j,
                 })
             item = {
                 'category': int(row[2].split('.')[0]),
                 'course': int(row[3].split('.')[0]),
-                'question': row[env.offset_col + i * env.nr_paragraphs_per_item].strip(),
+                'question': fake.text(250) if fake_data else row[env.offset_col + i * env.nr_paragraphs_per_item].strip(),
                 'answers': answers,
                 'original_index': i,
                 'days_exam_boards': [],
@@ -61,14 +63,10 @@ def make_items(ord_courses_values: list) -> list:
     return items
 
 
-def get_items(sheet_id: str, json_keyfile_name: str, from_local_file=True) -> list:
-    if from_local_file:
-        f = open('secret/items.json', 'r')
-        items = json.load(f)
-    else:
-        spreadsheet_values = get_ord_spreadsheet_values(sheet_id, json_keyfile_name)
-        items = make_items(spreadsheet_values)
-        with open('secret/items.json', 'w+') as f:
-            json.dump(items, f)
-            f.close()
+def get_items(sheet_id: str, json_keyfile_name: str, fake_data: bool = False) -> list:
+    spreadsheet_values = get_ord_spreadsheet_values(sheet_id, json_keyfile_name)
+    items = make_items(spreadsheet_values, fake_data)
+    with open('secret/items.json', 'w+') as f:
+        json.dump(items, f)
+        f.close()
     return items
