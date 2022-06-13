@@ -2,7 +2,7 @@
 A large amount of **_"items"_** - questions along with answer choices, was collected through a Google Form. The data collection spreadsheet looks like the sample file in the `fake_samples` folder.
 From these entries, assignments had to be generated for the students, each containing 7 questions, randomly chosen based on an algorithm.
 These assignments then had to be saved separately in a PDF file formatted in two columns and landscape. Also, for each assignment, the solution was saved in a separate PDF file.
-There were several examination boards and several examination days. Each board received a ZIP file each day containing a pre-determined number of examination topics and their solutions.
+There were several examination boards and several examination days. Each board received a ZIP file each day containing a pre-determined number of assignments and their solutions.
 
 ## The Algorithm
 The courses were divided into 4 categories. 
