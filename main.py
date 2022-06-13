@@ -27,8 +27,8 @@ def run():
     else:
         source_folder = env.pdf_folder
     write_zips(source_folder, env.zip_folder, env.dict_exam_days, env.exam_boards_count)
-    # shutil.rmtree(env.doc_folder)
-    # shutil.rmtree(env.pdf_folder)
+    shutil.rmtree(env.doc_folder)
+    shutil.rmtree(env.pdf_folder)
 
 
 if __name__ == '__main__':
